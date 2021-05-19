@@ -8,14 +8,30 @@
   top: 0;
   bottom: 0;
   left: 0;
-  width: 380px;
+  width: 300px;
 }
 
 .page-content {
-  width: 960px;
-  margin-left: 380px;
+  width: 800px;
+  margin-left: 300px;
 }
 
 .right-sidebar {
   flex: 1 0 auto;
+}
+
+@media (max-width: $breakpoint) {
+  .main-content {
+    flex-direction: column;
+  }
+
+  .main-sidebar {
+    position: static;
+    width: auto;
+  }
+
+  .page-content {
+    width: auto;
+    margin-left: 0;
+  }
 }

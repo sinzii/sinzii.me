@@ -15,14 +15,12 @@
   }
 
   .moto {
-    margin: 20px;
-
-    font-family: $serif-font;
     font-style: italic;
     text-align: center;
   }
 
   &--menu {
+    font-family: $sans-font;
     margin: 20px;
     list-style: none;
     text-align: center;
@@ -39,9 +37,24 @@
   }
 
   &-footer {
-    margin: 10px;
+    margin: 20px 10px;
     text-align: center;
     font-family: var(--serif-font);
     font-size: 14px;
+  }
+
+  @media (max-width: $breakpoint) {
+    &--menu {
+      margin: 10px 20px;
+
+      li {
+        display: inline-block;
+        margin: 10px;
+      }
+    }
+
+    &-footer {
+      display: none;
+    }
   }
 }
