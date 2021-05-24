@@ -1,6 +1,8 @@
 {
   "baseUrl": "",
   "siteName": "Thang X. Vu (@sinzii)",
+  "baseContext": "",
+  "siteDescription": "Where my thoughts wander...",
   "devMode": true,
   "dateTimeFormat": "DD/MM/YYYY - HH:mm",
   "dateFormat": "DD/MM/YYYY"
