@@ -1,11 +1,11 @@
 import {Config, PostUrlStyle} from './src/core/model';
 
 export default {
-    baseUrl: '',
+    baseUrl: 'https://sinzii.me',
     baseContext: '',
-    siteName: 'meblog',
-    siteDescription: 'A DIY blog engine',
+    siteName: 'Thang X. Vu (@sinzii)',
+    siteDescription: 'Where my thoughts wander...',
     dateTimeFormat: 'DD/MM/YYYY - HH:mm',
     dateFormat: 'DD/MM/YYYY',
-    postUrlStyle: PostUrlStyle.POST_SLUG
+    postUrlStyle: PostUrlStyle.YEAR_MONTH_SLUG
 } as Config
