@@ -1,4 +1,6 @@
-import {Post} from "./Post";
+import {Post} from './Post';
+import moment from 'moment';
+import logger from 'gulplog';
 
 const fs = require('fs');
 const path = require('path');
@@ -83,47 +85,87 @@ export default class SampleGenerator {
             faker.datatype.number({min: 20, max: 35})
         );
 
+        post.markdown = this.toMarkdown(post);
+
         return post;
     }
 
-    private toMarkdownPost(post: Post): string {
+    public emptyPost(): Post {
+        const post = new Post();
+        post.title = '';
+        post.slug = '';
+        post.publishedAt = new Date();
+        post.tags = [];
+        post.body = '';
+        post.excerpt = '';
+
+        post.markdown = this.toMarkdown(post);
+
+        return post;
+    }
+
+    private toMarkdown(post: Post): string {
         const meta = _.pick(post, ['title', 'slug']);
         meta.publishedAt = post.publishedAt.toISOString();
         meta.tags = post.tags.join(", ");
+        meta.excerpt = post.excerpt;
 
         return `---
 ${Object.keys(meta).map(prop => `${prop}: ${meta[prop]}`).join('\n')}
 ---
-${post.excerpt}
----
 ${post.body}
 `;
-    }
-
-    public markdownPost(): string {
-        return this.toMarkdownPost(this.post());
     }
 
     public posts(numberOfPost = 10): Post[] {
         return [...Array(numberOfPost)].map(() => this.post());
     }
 
-    public markdownPosts(numberOfPost = 10): string[] {
-        return this.posts(numberOfPost).map(this.toMarkdownPost);
-    }
-
     public generateMarkdownPostsAndSave(numberOfPost = 10,
-                                        dirPath: string = ''): void {
+                                        dirPath: string): void {
         if (fs.existsSync(dirPath)) {
             del.sync(path.join(dirPath, './*'));
         } else {
             fs.mkdirSync(dirPath);
         }
 
-        const posts = this.markdownPosts(numberOfPost);
-        posts.forEach((content, index) => {
-            const filePath = path.join(dirPath, `${index + 1}.md`);
-            fs.writeFileSync(filePath, content);
+        const posts = this.posts(numberOfPost);
+        posts.forEach((post) => {
+            const filePath = path.join(dirPath, post.publishedMonth, post.sampleFileName);
+            const monthPath = path.dirname(filePath);
+            if (!fs.existsSync(monthPath)) {
+                fs.mkdirSync(monthPath, {recursive: true});
+            }
+
+            fs.writeFileSync(filePath, post.markdown);
         });
+    }
+
+    public generateEmptyMarkdownPostAndSave(dirPath: string): void {
+        const post = this.emptyPost();
+
+        const publishedDate = moment(post.publishedAt).format('DD[-at-]HHmm');
+        let _try = 0;
+        const pickASampleName = (): string => {
+            const suffix = _try > 0 ? `-${_try}` : '';
+            const tryName = `${publishedDate}${suffix}.md`;
+            const filePath = path.join(dirPath, post.publishedMonth, tryName);
+
+            if (fs.existsSync(filePath)) {
+                _try += 1;
+                return pickASampleName();
+            }
+
+            return filePath
+        }
+
+        const filePath = pickASampleName();
+        const monthPath = path.dirname(filePath);
+        if (!fs.existsSync(monthPath)) {
+            fs.mkdirSync(monthPath, {recursive: true});
+        }
+
+        fs.writeFileSync(filePath, post.markdown);
+        logger.info('A new empty has been generated successfully at:', filePath);
     }
 }

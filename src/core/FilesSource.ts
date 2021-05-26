@@ -2,13 +2,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as glob from 'glob';
 import marked from 'marked';
-import Debug from 'debug';
+import logger from 'gulplog';
 
 import DataSource from "./DataSource";
 import {Config, IPost, Tag} from "./model";
 import {Post} from './Post';
-
-const debug = Debug("/scripts/data/FilesSource");
 
 marked.setOptions({
     langPrefix: 'hljs language-',
@@ -68,12 +66,12 @@ export default class FilesSource extends DataSource {
     }
 
     private getSourcePostPaths(): string[] {
-        return glob.sync(`${this.postsDirectoryPath}/*.md`);
+        return glob.sync(`${this.postsDirectoryPath}/**/*.md`);
     }
 
-    hasAnyChanges(): boolean {
+    private hasAnyChanges(): boolean {
         if (!fs.existsSync(this.postsJsonPath)) {
-            debug("data/posts.json is not existed");
+            logger.info("data/posts.json is not existed");
             return true;
         }
         const postsJsonLastModifiedAt = fs.statSync(this.postsJsonPath).mtimeMs;
@@ -83,7 +81,7 @@ export default class FilesSource extends DataSource {
             const lastModifiedAt = fs.statSync(filePath).mtimeMs;
 
             if (lastModifiedAt > postsJsonLastModifiedAt) {
-                debug("New post change at file:", filePath);
+                logger.info("New post change at file:", filePath);
                 return true;
             }
         }
@@ -93,10 +91,10 @@ export default class FilesSource extends DataSource {
 
     private parseMarkdownPost(content: string): Post {
         const post: any = {};
+        post.markdown = content;
 
         let separatorCounter = 0;
         const metaLines: string[] = [];
-        const excerptLines: string[] = [];
 
         while (true) {
             const index = content.indexOf('\n');
@@ -111,7 +109,7 @@ export default class FilesSource extends DataSource {
             if (line === this.separator) {
                 separatorCounter += 1;
 
-                if (separatorCounter === 3) {
+                if (separatorCounter === 2) {
                     post.body = marked(content);
                     break;
                 } else {
@@ -121,8 +119,6 @@ export default class FilesSource extends DataSource {
 
             if (separatorCounter <= 1) {
                 metaLines.push(line);
-            } else if (separatorCounter === 2) {
-                excerptLines.push(line);
             }
         }
 
@@ -134,8 +130,6 @@ export default class FilesSource extends DataSource {
             post[metaName] = metaValue;
         });
 
-        post.excerpt = excerptLines.join('\n').trim();
-
         return new Post(post);
     }
 
@@ -144,9 +138,10 @@ export default class FilesSource extends DataSource {
 
         const posts: Post[] = files
             .map(file => fs.readFileSync(file).toString())
-            .map(this.parseMarkdownPost.bind(this));
+            .map(content => this.parseMarkdownPost(content))
+            .filter(p => p.title && p.publishedAt);
 
-        const tags = posts.flatMap(p => p.tags);
+        const tags = posts.flatMap(p => p.tags).filter(t => t);
 
         // sorting the posts, newer post will appear first
         posts.sort(
@@ -186,6 +181,13 @@ export default class FilesSource extends DataSource {
             this.tagsJsonPath,
             JSON.stringify(tags, null, jsonPrettySpace)
         );
+    }
+
+    public parsePostsFromPaths(filePaths: string[]): Post[] {
+        return filePaths
+            .filter(file => fs.existsSync(file))
+            .map(file => fs.readFileSync(file).toString())
+            .map(this.parseMarkdownPost.bind(this));
     }
 
     public loadData(force = false): void {

@@ -1,9 +1,0 @@
-{
-  "baseUrl": "https://sinzii.me",
-  "baseContext": "",
-  "siteName": "Thang X. Vu (@sinzii)",
-  "siteDescription": "Where my thoughts wander...",
-  "devMode": true,
-  "dateTimeFormat": "DD/MM/YYYY - HH:mm",
-  "dateFormat": "DD/MM/YYYY"
-}

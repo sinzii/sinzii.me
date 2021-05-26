@@ -1,11 +1,14 @@
 import File from 'vinyl';
-import * as _ from 'lodash';
 import * as path from 'path';
 import pug from 'pug';
 import through from 'through2';
 import ConfigHolder from "./ConfigHolder";
 import DataSource from "./DataSource";
 import moment from 'moment';
+import logger from 'gulplog';
+import {Post} from './Post';
+import {PostUrlStyle} from './model';
+
 
 export default class TemplateCompiler extends ConfigHolder {
     private readonly dataSource: DataSource;
@@ -16,7 +19,7 @@ export default class TemplateCompiler extends ConfigHolder {
         this.dataSource = dataSource;
     }
 
-    compilePugTemplate(file: File, data: any) {
+    private compilePugTemplate(file: File, data: any) {
         const template = pug.compile(String(file.contents), {
             pretty: this.config.devMode,
             filename: file.path
@@ -24,12 +27,12 @@ export default class TemplateCompiler extends ConfigHolder {
 
         const config = this.config;
         const templateName = file.basename.replace(file.extname, '');
+        const postPartialPath = this.postPartialPath.bind(this);
+        const rootUrl = this.rootUrl.bind(this);
+        const url = this.url.bind(this);
 
         const compiled = template({
-            ..._.pick(config, [
-                'baseUrl', 'baseContext',
-                'siteName', 'siteDescription'
-            ]),
+            ...config,
             templateName,
             ...data,
             formatDateTime(date: Date) {
@@ -38,41 +41,94 @@ export default class TemplateCompiler extends ConfigHolder {
             formatDate(date: Date) {
                 return moment(date).format(config.dateFormat)
             },
-            rootUrl(path) {
-                const {baseUrl = '', baseContext = ''} = config;
-                let url = path;
-
-                if (baseContext) {
-                    url = `/${baseContext}${path}`
-                }
-
-                if (baseUrl) {
-                    url = baseUrl + url;
-                }
-
-                return url;
+            rootUrl,
+            url,
+            postUrl(post: Post) {
+                return url(postPartialPath(post));
             },
-            url(path: string) {
-                const {baseContext = ''} = config;
-                return `${baseContext}${path}`;
+            postRootUrl(post: Post) {
+                return rootUrl(postPartialPath(post));
             }
         });
 
         return Buffer.from(compiled);
     }
 
-    pug() {
+    public rootUrl(path): string {
+        const {baseUrl = '', baseContext = ''} = this.config;
+        let url = path;
+
+        if (baseContext) {
+            url = `/${baseContext}${path}`
+        }
+
+        if (baseUrl) {
+            url = baseUrl + url;
+        }
+
+        return url;
+    }
+
+    public url(path: string): string {
+        const {baseContext = ''} = this.config;
+        return `${baseContext}${path}`;
+    }
+
+    public postPartialPath(post: Post): string {
+        const {postUrlStyle} = this.config;
+        const defaultPostsDir = 'posts';
+
+        switch (postUrlStyle) {
+            case PostUrlStyle.POSTS_YEAR_MONTH_SLUG:
+                return `/${defaultPostsDir}/${post.publishedMonth}/${post.slug}.html`;
+            case PostUrlStyle.POSTS_YEAR_SLUG:
+                return `/${defaultPostsDir}/${post.publishedYear}/${post.slug}.html`;
+            case PostUrlStyle.YEAR_MONTH_SLUG:
+                return `/${post.publishedMonth}/${post.slug}.html`;
+            case PostUrlStyle.YEAR_SLUG:
+                return `/${post.publishedYear}/${post.slug}.html`;
+            case PostUrlStyle.SLUG:
+                return `/${post.slug}.html`;
+            case PostUrlStyle.POST_SLUG:
+            default:
+                return `/${defaultPostsDir}/${post.slug}.html`
+        }
+    }
+
+    public pugPosts(posts: Post[]) {
         const compilePugTemplate = this.compilePugTemplate.bind(this);
-        const dataSource = this.dataSource;
+        const postPartialPath = this.postPartialPath.bind(this);
 
         return through.obj(function (file, enc, cb) {
-            console.log('compiling', file.path);
+            logger.info('Compiling template', file.basename);
+
+            if (file.path.endsWith('post.pug')) {
+                for (const post of posts) {
+                    this.push(new File({
+                        base: file.base,
+                        path: path.join(file.base, postPartialPath(post)),
+                        contents: compilePugTemplate(file, {post})
+                    }));
+                }
+            }
+
+            cb();
+        });
+    }
+
+    public pug() {
+        const compilePugTemplate = this.compilePugTemplate.bind(this);
+        const dataSource = this.dataSource;
+        const postPartialPath = this.postPartialPath.bind(this);
+
+        return through.obj(function (file, enc, cb) {
+            logger.info('Compiling template', file.basename);
 
             if (file.path.endsWith('post.pug')) {
                 for (const post of dataSource.getPosts()) {
                     this.push(new File({
                         base: file.base,
-                        path: path.join(file.base, `posts/${post.slug}.html`),
+                        path: path.join(file.base, postPartialPath(post)),
                         contents: compilePugTemplate(file, {post})
                     }));
                 }
