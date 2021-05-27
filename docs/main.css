@@ -342,7 +342,7 @@ template {
 
 .header__menu {
   font-family: "Poppins", sans-serif;
-  margin: 20px;
+  margin: 20px 0;
   list-style: none;
   text-align: center;
   font-size: 18px;
