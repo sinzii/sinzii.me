@@ -20,9 +20,8 @@ block content
 
     h3 Side Projects
     ul.listing
-        li.listing__item
-            a(href='https://github.com/sinzii/meblog' target='_blank') <strong>meblog</strong> - Static site generator
-        li.listing__item
-            a(href='https://github.com/sinzii/frameworkless' target='_blank') <strong>frameworkless</strong> - A frameworkless NodeJS application
+        each project in me.sideProjects
+            li.listing__item
+                a(href=project.url target='_blank') !{project.name}
 
 
