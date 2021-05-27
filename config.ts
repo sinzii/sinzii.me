@@ -9,6 +9,9 @@ export default {
     dateFormat: 'DD/MM/YYYY',
     postUrlStyle: PostUrlStyle.YEAR_MONTH_SLUG,
     me: {
+        fullname: 'Thang X. Vu',
+        nickname: '@sinzii',
+        github: 'https://github.com/sinzii',
         sideProjects: [
             {
                 name: '<strong>meblog</strong> - A DIY blog engine',
