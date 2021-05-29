@@ -2,4 +2,4 @@
 
 Proudly built with [meblog](https://github.com/sinzii/meblog) - A simple static site generator.
 
-Hosted by [Github Pages](https://pages.github.com/)
+Hosted by [Github Pages](https://pages.github.com/).
