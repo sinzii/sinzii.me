@@ -3,18 +3,19 @@
 }
 
 .avatar {
-  display: inline-block;
+  display: block;
 
   &__image {
+    margin: auto;
     width: 200px;
     height: 200px;
     border-radius: 100%;
+    display: block;
   }
 
   &__image_small {
     width: 100px;
     height: 100px;
-    border-radius: 100%;
   }
 }
 

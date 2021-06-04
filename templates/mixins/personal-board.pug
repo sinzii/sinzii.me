@@ -6,7 +6,9 @@ mixin personal-board
             | &nbsp;(
             a(href=me.github target='_blank')=me.nickname
             | )
-        p A software developer with a curious mind.
+        p
+            span A software developer with&nbsp;
+            span.nowrap a curious mind.
         p I'm currently interested in&nbsp;
             | <strong>
             a(href=url('/tags/javascript.html')) #javascript
@@ -22,7 +24,7 @@ mixin personal-board
 mixin personal-board-small
     div.personal-board
         div.avatar
-            img.avatar__image_small(src=url('/images/avatar_scarlet.png') alt=siteName)
+            img.avatar__image.avatar__image_small(src=url('/images/avatar_scarlet.png') alt=siteName)
         h3=me.fullname
             | &nbsp;(
             a(href=me.github target='_blank')=me.nickname

@@ -1,25 +1,24 @@
-import {Config, PostUrlStyle} from './src/core/model';
-
-export default {
+module.exports = {
     baseUrl: 'https://sinzii.me',
     baseContext: '',
     siteName: 'Thang X. Vu (@sinzii)',
     siteDescription: 'Where my thoughts wander...',
     dateTimeFormat: 'DD/MM/YYYY - HH:mm',
     dateFormat: 'DD/MM/YYYY',
-    postUrlStyle: PostUrlStyle.YEAR_MONTH_SLUG,
+    postUrlStyle: 'YEAR_MONTH_SLUG',
     me: {
         fullname: 'Thang X. Vu',
         nickname: '@sinzii',
         github: 'https://github.com/sinzii',
         sideProjects: [
             {
-                name: '<strong>meblog</strong> - A DIY blog engine',
+                name: '<strong>meblog</strong> - A simple blog engine for personal blogging',
                 url: 'https://github.com/sinzii/meblog'
             }, {
                 name: '<strong>frameworkless</strong> - A frameworkless NodeJS application',
                 url: 'https://github.com/sinzii/frameworkless'
             }
         ]
-    }
-} as Config
+    },
+    predefinedTags: ['javascript', 'nodejs', 'frontend']
+}

@@ -47,9 +47,7 @@ html(lang='en')
                 gtag('js', new Date());
                 gtag('config', 'G-PG94EHM1B9');
     body
-        div.myblog.main-content
-            +left-sidebar
-            main.page-content(class=`page-${templateName}`)
+        div.myblog.main-content(class=`page-${templateName}`)
+            main.page-content
                 block content
-            +right-sidebar
-        script(src=url('/index.js'))
+            +footer

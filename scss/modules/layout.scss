@@ -1,0 +1,12 @@
+.main-content {
+  display: flow-root;
+  max-width: 900px;
+  min-width: 300px;
+  margin: auto;
+
+  padding: 0 50px;
+
+  @media (max-width: $breakpoint) {
+    padding: 0 35px;
+  }
+}

@@ -12,9 +12,14 @@ block append head
 block content
     +header
     +personal-board-small
-    h1.mt-0
-        span Tagged as&nbsp;
-        span.p-color=`#${tag}`
-    each post in posts
-        +post-summary(post)
+    if postsByTag.length > 0
+        h2.mt-0
+            span Tagged as&nbsp;
+            span.p-color=`#${tag}`
+        each post in postsByTag
+            +post-summary(post)
+    else
+        p.meta-color.text-center
+            span There is no articles tagged as&nbsp;
+            span.p-color=`#${tag}`
 
