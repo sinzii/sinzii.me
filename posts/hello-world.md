@@ -19,3 +19,5 @@ but mostly about programming, engineering, and personal thoughts in English or V
 I look forward to see how things will turn out in the future!
 
 __A lonely afternoon (again) at the café near my house__
+
+_Updated: Just in case you don't get the metaphor behind the title. Please follow [the link](https://en.wikipedia.org/wiki/Journey_to_the_West)_.
