@@ -1,13 +1,13 @@
 .post-summary {
-  margin-bottom: 30px;
+  margin-bottom: 1em;
   text-align: justify;
 
   &__title {
-    margin: 0 0 10px 0;
+    margin: 0.5em 0;
   }
 
   &__excerpt {
-    margin-bottom: 15px;
+    margin-bottom: 1em;
     hyphens: auto;
   }
 }
@@ -15,7 +15,7 @@
 .post-info {
   &__meta {
     display: inline-block;
-    margin: 0 20px 5px 0;
+    margin: 5px 20px 0 0;
   }
 
   &__tag {

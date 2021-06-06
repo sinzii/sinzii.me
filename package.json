@@ -6,6 +6,7 @@
   "author": "@sinzii",
   "license": "MIT",
   "devDependencies": {
-    "meblog": "^2.1.0"
+    "gulp-minify": "^3.1.0",
+    "meblog": "^2.1.1"
   }
 }
