@@ -1,5 +1,5 @@
 module.exports = {
-    baseUrl: 'https://sinzii.me',
+    baseUrl: 'https://thangx.vu',
     baseContext: '',
     siteName: 'Thang X. Vu (@sinzii)',
     siteDescription: 'Where my thoughts wander...',
