@@ -6,6 +6,10 @@ body {
   font-size: 18px;
 }
 
+.text-color {
+  color: $text-color;
+}
+
 a {
   color: var(--primray-color);
   text-decoration: none;

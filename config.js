@@ -12,23 +12,23 @@ module.exports = {
         github: 'https://github.com/sinzii',
         sideProjects: [
             {
-                name: '<strong>Dedot</strong> - A delightful JavaScript/TypeScript client for <strong>Polkadot</strong> & <strong>Substrate</strong>',
+                name: '<strong>Dedot</strong><span class="text-color"> - A delightful JavaScript/TypeScript client for <strong>Polkadot</strong> & <strong>Substrate</strong></span>',
                 url: 'https://github.com/dedotdev/dedot'
             },
             {
-                name: '<strong>InSpace</strong> - A protocol to launch and manage your community spaces using <strong>ink!</strong> smart contracts',
+                name: '<strong>InSpace</strong><span class="text-color"> - A protocol to launch and manage your community spaces using <strong>ink!</strong> smart contracts</span>',
                 url: 'https://github.com/CoongCrafts/inspaciness'
             },
             {
-                name: '<strong>Coong Wallet</strong> - A website-based multi-chain crypto wallet for <strong>Polkadot</strong> & <strong>Kusama</strong> ecosystem',
+                name: '<strong>Coong Wallet</strong><span class="text-color"> - A website-based multi-chain crypto wallet for <strong>Polkadot</strong> & <strong>Kusama</strong> ecosystem</span>',
                 url: 'https://github.com/CoongCrafts/coong-wallet'
             },
             {
-                name: '<strong>meblog</strong> - A simple blog engine for personal blogging',
+                name: '<strong>meblog</strong><span class="text-color"> - A simple blog engine for personal blogging</span>',
                 url: 'https://github.com/sinzii/meblog'
             },
             {
-                name: '<strong>frameworkless</strong> - A frameworkless NodeJS application',
+                name: '<strong>frameworkless</strong><span class="text-color"> - A frameworkless NodeJS application</span>',
                 url: 'https://github.com/sinzii/frameworkless'
             }
         ]
