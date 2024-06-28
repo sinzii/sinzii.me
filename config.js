@@ -16,7 +16,7 @@ module.exports = {
                 url: 'https://github.com/dedotdev/dedot'
             },
             {
-                name: '<strong>InSpace</strong><span class="text-color"> - A protocol to launch and manage your community spaces using <strong>ink!</strong> smart contracts</span>',
+                name: '<strong>InSpace</strong><span class="text-color"> - A protocol to launch and manage on-chain communities using <strong>ink!</strong> smart contracts</span>',
                 url: 'https://github.com/CoongCrafts/inspaciness'
             },
             {
