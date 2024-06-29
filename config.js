@@ -33,5 +33,5 @@ module.exports = {
             }
         ]
     },
-    predefinedTags: ['javascript', 'nodejs', 'frontend', 'blockchain', 'polkadot', 'substrate']
+    predefinedTags: ['javascript', 'nodejs', 'frontend', 'blockchain', 'polkadot', 'substrate', 'rust']
 }
