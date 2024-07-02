@@ -12,7 +12,7 @@ module.exports = {
         github: 'https://github.com/sinzii',
         sideProjects: [
             {
-                name: '<strong>Dedot</strong><span class="text-color"> - A delightful JavaScript/TypeScript client for <strong>Polkadot</strong> & <strong>Substrate</strong></span>',
+                name: '<strong>Dedot</strong><span class="text-color"> - A delightful JavaScript client for <strong>Polkadot</strong> & <strong>Substrate</strong></span>',
                 url: 'https://github.com/dedotdev/dedot'
             },
             {
